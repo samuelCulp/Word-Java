@@ -20,44 +20,62 @@ public class Main {
 
         int len = randomWord.length();
         String[] rightLetter = new String[len];
-        System.out.println(len);
+
+
+        for (int i = 0; i < len; i++) {
+            rightLetter[i] = "_";
+        }
+
         Scanner sc = new Scanner(System.in);
-        for (int i = 0; i < len;) {
-            int j =0;
-            System.out.println("Please enter a letter: ");
+        int incorrectGuesses = 0;
+
+        while (incorrectGuesses < 4) {
+            System.out.print("Current progress: ");
+            for (String letter : rightLetter) {
+                System.out.print(letter + " ");
+            }
+            System.out.println("\nPlease enter a letter: ");
             String userIN = sc.nextLine();
 
+
+            if (userIN.length() != 1 || !Character.isLetter(userIN.charAt(0))) {
+                System.out.println("Please enter a single valid letter.");
+                continue;
+            }
+
             boolean containsLetter = false;
-            for (char c : randomWord.toCharArray()) {
-                if (userIN.indexOf(c) != -1) {
+
+            // Check if the guessed letter is in randomWord and update rightLetter if correct
+            for (int i = 0; i < len; i++) {
+                if (randomWord.charAt(i) == userIN.charAt(0)) {
+                    rightLetter[i] = userIN; // Place correct guess in rightLetter
                     containsLetter = true;
+                }
+            }
+
+
+            if (containsLetter) {
+                System.out.println(userIN + " is correct!");
+
+                // Check if the word is completely guessed
+                if (String.join("", rightLetter).equals(randomWord)) {
+                    System.out.println("You win: " + randomWord);
                     break;
                 }
-            }
-
-            if (containsLetter) {// right
-                System.out.println(userIN + " right");
-
-                rightLetter[j] = userIN;
-                j++;
-                for (int k =0; k < j; k++) {
-                    System.out.print(rightLetter[j]+k);
-                }
-
             } else {
-                System.out.println(userIN + " wrong");
-                i = i+1;
+                incorrectGuesses++;
+                System.out.println(userIN + " is incorrect. You have " + (4 - incorrectGuesses) + " guesses left.");
             }
 
-            if (i == 4){
-                System.out.println("You killed a man");
+
+            if (incorrectGuesses == 4) {
+                System.out.println("You killed a man. The correct word was: " + randomWord);
                 break;
             }
-            for (int k =0; k <= j; k++) {
-                System.out.print(rightLetter[k]);
-                System.out.println("k:" + j);
-            }
         }
+
+        sc.close();
+
 
 /*        sc.close();
         GUI gui = new GUI();

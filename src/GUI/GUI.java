@@ -1,15 +1,26 @@
 package GUI;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
+
 import Game.Game;
 
 
-public class GUI {
+public class GUI extends JFrame {
+
+
+    public JLabel wordDisplay;
+    public JTextField guessInput;
+    public JLabel feedbackLabel;
+    public JLabel guessesLeftLabel;
+
 
     public static void Window() {
 
+        Game game = new Game();
+        int len = game.randomWord.length();
+
+
     JFrame frame = new JFrame("Call of Duty: Hang a Man");
-    Game game = new Game();
+
     // Create a label
         String randomWord = game.ReadingWordFile();
     JLabel label = new JLabel(randomWord);
